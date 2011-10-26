@@ -78,8 +78,8 @@
 	                    // since photo album is false movie album is true
 	                    // get thumbnails links and alter attributes (prettyPhoto)
 	                    mA.each(function() {
-	                        var thisAnch = $('a', this);
-	                        var thisCap = $('.movie-thumbnail-caption', this);
+	                        var thisAnch = jq.add('a', this);
+	                        var thisCap = jq.add('.movie-thumbnail-caption', this);
 	                        var thisPage = thisAnch.attr('href');
 	                        thisAnch.removeAttr('onclick').removeAttr('onkeypress').attr({
 	                            'href': thisPage + '?iframe=true&width=75%&height=75%',
@@ -89,7 +89,7 @@
 	                    });
 	                }
 	                // apply effects (prettyPhoto)
-	                $('a[rel^=prettyPhoto]').prettyPhoto({
+	                jq.add('a[rel^=prettyPhoto]').prettyPhoto({
 	                    animation_speed: opts.animation_speed,
 	                    show_title: opts.show_title,
 	                    theme: opts.theme
