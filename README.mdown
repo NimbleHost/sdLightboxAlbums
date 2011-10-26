@@ -1,0 +1,96 @@
+# sdLightboxAlbums #
+**AUTHOR:	Adam Merrifield**  
+**VERSION:	1.0.0**
+
+## About sdLightboxAlbums ##
+
+A lot of RapidWeaver theme developers like to use prettyPhoto to add a lightbox effect to the built-in RapidWeaver photo and movie album pages. One drawback is that you either have to include the code at all times for all pages and risk polluting the the CSS and JavaScript namespace with rarely used code, potentially conflicting with other instances of prettyPhoto, or you have to have an option in your theme settings to turn this code on or off.
+
+I've never been one to waste options on frivolous things that end users don't care much about and I certainly hate wasted code, so when I first introduced prettyPhoto albums into my own themes I was sure to make it an intelligent process that would include the prettyPhoto code only when it was necessary to do so.
+
+This is a chunk of code I've been using in recent RapidWeaver themes to add a prettyPhoto lightbox effect to the built-in RapidWeaver photo and movie album pages. Since I keep reusing the same code over and over, it made sense to finally make it a jQuery utility function.
+
+## Contents ##
+
+* README.mdown
+* jquery.sdlightboxalbums.js - uncompressed development version
+* jquery.sdlightboxalbums.min.js - minified version
+
+## REQUIREMENTS ##
+
+Since this is a helper utility to assist RapidWeaver theme developers deploy prettyPhoto within their themes, it only makes sense that you need [prettyPhoto](http://www.no-margin-for-errors.com/projects/prettyphoto-jquery-lightbox-clone/ "jQuery lightbox for images, videos, YouTube, iframes, ajax | Stéphane Caron – No Margin For Errors") to begin with. It also helps if you have a theme to put it in.
+
+## SETTINGS ##
+
+There are 2 mandatory settings when invoking sdLightboxAlbums, the file path to the prettyPhoto jQuery plugin and the file path to the prettyPhoto CSS file. `js_file:` is for the prettyPhoto plugin, `css_file:` is for the prettyPhoto CSS. See "USAGE" for more information.
+
+## OPTIONS ##
+
+There are 3 optional settings that you can use to pass prettyPhoto a few preferences. `animation_speed:`, `show_title:` and `theme:`. These are all straight from the prettyPhoto API so you can refer there for more information. These 3 options currently default to `normal`, `false` and `default`.
+
+## USAGE ##
+
+1. Include the prettyPhoto plugin and CSS somewhere in your theme (Contents/css/ is likely best for the CSS file). Don't worry about referencing those resources as our plugin will handle that for you. Just be sure to note their location.
+2. Include the prettyPhoto themes in your image folder in a folder called "prettyPhoto". If your CSS file is in the "Contents/css" folder and your prettyPhoto themes in the "Contents/images/prettyPhoto" folder, you'll have no worries with the two resources finding each other.
+3. Include the jquery.sdlightboxalbums.js plugin in your theme and call to it with your preferred method. It's a pretty small script so you could likely call it in the head of your theme regardless of the page that is loaded, but if resource management is a concern then you could also load the plugin via ajax, conditional of photo album and movie albums pages being loaded.
+4. Invoke the function within your HTML template or a JavaScript file (prefered). Note that we are dealing with jQuery here, so... you know... use jQuery. Here is what the typical invocation would like like:
+
+		$.sdLightboxAlbums({
+			css_file	:	'some/path/prettyPhoto.css',
+			js_file		:	'another/folder/jquery.prettyPhoto.js'
+		});
+		
+5. Set your file paths accordingly. It's entirely up to you, but my preferred method is with [RwSetGet](https://github.com/seyDoggy/RwSetGet "seyDoggy/RwSetGet - GitHub"). That would look something like this:
+
+		$.sdLightboxAlbums({
+			css_file	:	RwGet.pathto('css/prettyPhoto.css'),
+			js_file		:	RwGet.pathto('scripts/jquery.prettyPhoto.js')
+		});
+		
+6. Choose a few options to pass to prettyPhoto (optional), such as `animation_speed`, `show_title` and `theme`. Like so:
+
+		$.sdLightboxAlbums({
+			css_file	:	RwGet.pathto('css/prettyPhoto.css'),
+			js_file		:	RwGet.pathto('scripts/jquery.prettyPhoto.js'),
+			animation_speed	:	'slow',
+			show_title		:	true,
+			theme			:	'facebook'
+		});
+		
+7. That's it. The built-in RapidWeaver photo and movie album pages will now be lightboxed with prettyPhoto without polluting any other page type with either the extraneous CSS or jQuery code.
+
+## TROUBLE SHOOTING ##
+
+About the only thing you're going to have trouble with is getting the paths right.
+
+#### IMAGE PATHS ####
+
+The path from the css file to the prettyPhoto themes (image folders) is pretty easy to mess up. Your best bet is to have prettyPhoto.css in the Contents/css folder, like so:
+
+	Contents/css/prettyPhoto.css
+	
+And then put all of the prettyPhoto themes in the images folder, like so:
+
+	Contents/images/prettyPhoto/
+	
+So the default theme would be located here:
+
+	Contents/images/prettyPhoto/default/
+	
+And the facebook theme:
+
+	Contents/images/prettyPhoto/facebook/
+	
+And so on. If you put these resources in these locations then they should talk to each other just fine.
+
+#### FILE PATHS ####
+
+The other sticky part is getting the right paths in the invocation settings (i.e. `css_file:` and `js_file:`). As I've already suggested, [RwSetGet](https://github.com/seyDoggy/RwSetGet "seyDoggy/RwSetGet - GitHub") is going to be a big help here, but no matter which way you go about it, knowing when you've done it right or wrong is easy. If you got it right then prettyPhoto should be working fine. But if you have it wrong, you'll know by using RapidWeaver's web-inspector console pane--there will be a console message that reads:
+
+	The paths to the lightbox files have not been set by the theme developer!
+	
+Should you miss this and publish your theme with the errant code, then an alert will pop up in a browser window with the same warning.
+
+## UPDATES ##
+
+* **1.0.0**: initial release
