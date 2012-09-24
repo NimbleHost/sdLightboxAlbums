@@ -48,12 +48,15 @@
 			$.extend(opts, settings);
 			
 			// ACTION
+			console.log(phA);
 			var doPrettyPhoto = function(path){
 				// VARIABLES
 				var jq = $([]),
 				phA = jq.add('.album-wrapper'),
 				mA = jq.add('.movie-thumbnail-frame'),
 				thFrame = phA.find('.thumbnail-frame');
+
+				return phA;
 
 				if (phA.length || mA.length) {
 					// load css (prettyPhoto)
@@ -109,6 +112,7 @@
 					doPrettyPhoto(opts.css_file);
 				}
 			});
+			console.log(phA);
 		} else {
 			// if no options detected, issue warning
 			var msg = 'The paths to the lightbox files have not been set by the theme developer!';
