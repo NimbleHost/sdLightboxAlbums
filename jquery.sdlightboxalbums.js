@@ -107,9 +107,13 @@
 				crossDomain: true,
 				success: function(){
 					doPrettyPhoto(opts.css_file);
+					var scriptState = "pass";
+				},
+				error: function () {
+					var scriptState = "fail";
 				}
 			});
-			if (typeof prettyPhoto == 'undefined') console.log('prettyPhoto has not been loaded');
+			if (scriptState == 'pass') console.log('prettyPhoto has been loaded');
 		} else {
 			// if no options detected, issue warning
 			var msg = 'The paths to the lightbox files have not been set by the theme developer!';
