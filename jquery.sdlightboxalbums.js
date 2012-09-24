@@ -64,15 +64,17 @@
 				.fail(function(){
 					console.log('Failed to load ' + opts.css_file);
 				});
-				$.getScript(opts.js_local)
-				.done(function(){
-					css_href = opts.css_local;
-					return css_href;
-				})
-				.fail(function(){
-					console.log('Failed to load ' + opts.css_local);
-				});
-
+				if (prettyPhoto == 'undefined') {
+					$.getScript(opts.js_local)
+					.done(function(){
+						css_href = opts.css_local;
+						return css_href;
+					})
+					.fail(function(){
+						console.log('Failed to load ' + opts.css_local);
+					});
+				}
+				
 				if (css_href == opts.css_file || css_href == opts.css_local) {
 					// Photo Album
 					if (phA.length) {
