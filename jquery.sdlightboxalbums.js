@@ -107,19 +107,20 @@
 				crossDomain: true,
 				success: function(){
 					doPrettyPhoto(opts.css_file);
-				},
-				error: function () {
-					$.ajax({
-						url: opts.js_local,
-						dataType: "script",
-						async: false,
-						crossDomain: false,
-						success: function(){
-							doPrettyPhoto(opts.css_local);
-						}
-					});
 				}
 			});
+			// local attempt
+			if ($.fn.prettyPhoto) {
+				$.ajax({
+					url: opts.js_local,
+					dataType: "script",
+					async: false,
+					crossDomain: false,
+					success: function(){
+						doPrettyPhoto(opts.css_local);
+					}
+				});
+			}
 		} else {
 			// if no options detected, issue warning
 			var msg = 'The paths to the lightbox files have not been set by the theme developer!';
