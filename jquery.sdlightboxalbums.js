@@ -48,7 +48,6 @@
 			$.extend(opts, settings);
 			
 			// ACTION
-			var isLoaded = false;
 			var doPrettyPhoto = function(path){
 				// VARIABLES
 				var jq = $([]),
@@ -98,8 +97,6 @@
 						social_tools: opts.social_tools
 					});
 				}
-				var isLoaded = true;
-				return isLoaded;
 			};
 			// load js (prettyPhoto)
 			// remote attempt
@@ -109,10 +106,10 @@
 				async: false,
 				crossDomain: true,
 				success: function(){
-					doPrettyPhoto(opts.css_file,isLoaded);
+					doPrettyPhoto(opts.css_file);
 				}
 			});
-			console.log(isLoaded);
+			if (typeof prettyPhoto != 'undefined') console.log('prettyPhoto has been loaded');
 		} else {
 			// if no options detected, issue warning
 			var msg = 'The paths to the lightbox files have not been set by the theme developer!';
