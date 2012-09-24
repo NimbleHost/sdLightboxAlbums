@@ -110,7 +110,7 @@
 				}
 			});
 			// local attempt
-			if ($.fn.prettyPhoto) {
+			if (typeof $.fn.prettyPhoto != 'function') {
 				$.ajax({
 					url: opts.js_local,
 					dataType: "script",
