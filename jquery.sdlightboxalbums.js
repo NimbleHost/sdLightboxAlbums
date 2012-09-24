@@ -53,9 +53,14 @@
 			thFrame = phA.find('.thumbnail-frame');
 
 			// ACTION
-			if (phA.length || mA.length) {
-				// load remote js (prettyPhoto)
-				$.getScript(opts.js_file, function() {
+			var doPrettyPhoto = function(path){
+				if (phA.length || mA.length) {
+					// load css (prettyPhoto)
+					$("head").append("<link>").children(":last").attr({
+						rel: "stylesheet",
+						type: "text/css",
+						href: path
+					});
 					// Photo Album
 					if (phA.length) {
 						// get thumbnail links and alter attributes (prettyPhoto)
@@ -90,59 +95,17 @@
 						theme: opts.theme,
 						social_tools: opts.social_tools
 					});
-					// load css (prettyPhoto)
-					$("head").append("<link>").children(":last").attr({
-						rel: "stylesheet",
-						type: "text/css",
-						href: opts.css_file
-					});
-				})
-				.fail(function(){
-					// load local js (prettyPhoto)
-					$.getScript(opts.js_local, function() {
-						// Photo Album
-						if (phA.length) {
-							// get thumbnail links and alter attributes (prettyPhoto)
-							thFrame.each(function() {
-								var thisAnch = jq.add('a', this),
-								thisImg = jq.add('a img', this),
-								thisCap = jq.add('.thumbnail-caption', this);
-								thisAnch.attr({
-									'href': thisImg.attr('src').replace(/thumb/i, 'full'),
-									'rel': 'prettyPhoto[gallery]',
-									'title': thisCap.text()
-								});
-							});
-						} else {
-							// since photo album is false movie album is true
-							// get thumbnails links and alter attributes (prettyPhoto)
-							mA.each(function() {
-								var thisAnch = jq.add('a', this);
-								var thisCap = jq.add('.movie-thumbnail-caption', this);
-								var thisPage = thisAnch.attr('href');
-								thisAnch.removeAttr('onclick').removeAttr('onkeypress').attr({
-									'href': thisPage + '?iframe=true&width=75%&height=75%',
-									'rel': 'prettyPhoto[iframes]',
-									'title': thisCap.text()
-								});
-							});
-						}
-						// apply effects (prettyPhoto)
-						jq.add('a[rel^=prettyPhoto]').prettyPhoto({
-							animation_speed: opts.animation_speed,
-							show_title: opts.show_title,
-							theme: opts.theme,
-							social_tools: opts.social_tools
-						});
-						// load css (prettyPhoto)
-						$("head").append("<link>").children(":last").attr({
-							rel: "stylesheet",
-							type: "text/css",
-							href: opts.css_local
-						});
-					});
-				});
-			}
+				}
+			};
+			// load js (prettyPhoto)
+			// remote attempt
+			$.getScript(opts.js_file, function() {
+				if (prettyPhoto != 'undefined') doPrettyPhoto(opts.css_file);
+			});
+			// local attempt
+			$.getScript(opts.js_local, function() {
+				if (prettyPhoto != 'undefined') doPrettyPhoto(opts.css_local);
+			});
 		} else {
 			// if no options detected, issue warning
 			var msg = 'The paths to the lightbox files have not been set by the theme developer!';
