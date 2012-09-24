@@ -56,8 +56,6 @@
 				mA = jq.add('.movie-thumbnail-frame'),
 				thFrame = phA.find('.thumbnail-frame');
 
-				isLoaded = true;
-
 				if (phA.length || mA.length) {
 					// load css (prettyPhoto)
 					$("head").append("<link>").children(":last").attr({
@@ -100,6 +98,7 @@
 						social_tools: opts.social_tools
 					});
 				}
+				var isLoaded = true;
 				return isLoaded;
 			};
 			// load js (prettyPhoto)
@@ -110,7 +109,7 @@
 				async: false,
 				crossDomain: true,
 				success: function(){
-					doPrettyPhoto(opts.css_file);
+					doPrettyPhoto(opts.css_file,isLoaded);
 				}
 			});
 			console.log(isLoaded);
