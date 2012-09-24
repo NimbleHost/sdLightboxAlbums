@@ -1,4 +1,4 @@
-# sdLightboxAlbums #
+# sdLightboxAlbums / sdAlbumStyle #
 **AUTHOR:	Adam Merrifield**  
 **VERSION:	1.1.0**
 
@@ -15,6 +15,8 @@ This is a chunk of code I've been using in recent RapidWeaver themes to add a pr
 * README.mdown
 * jquery.sdlightboxalbums.js - uncompressed development version
 * jquery.sdlightboxalbums.min.js - minified version
+* jquery.sdalbumstyle.js - uncompressed development version
+* jquery.sdalbumstyle.min.js - minified version
 
 ## REQUIREMENTS ##
 
@@ -28,7 +30,7 @@ There are 2 mandatory settings when invoking sdLightboxAlbums, the file path to 
 
 There are 4 optional settings that you can use to pass prettyPhoto a few preferences. `animation_speed:`, `show_title:` and `theme:`. These are all straight from the prettyPhoto API so you can refer there for more information. These 3 options currently default to `normal`, `false` and `default`.
 
-## USAGE ##
+## USAGE (sdLightboxAlbums) ##
 
 1. Include the prettyPhoto plugin and CSS somewhere in your theme (Contents/css/ is likely best for the CSS file). Don't worry about referencing those resources as our plugin will handle that for you. Just be sure to note their location.
 2. Include the prettyPhoto themes in your image folder in a folder called "prettyPhoto". If your CSS file is in the "Contents/css" folder and your prettyPhoto themes in the "Contents/images/prettyPhoto" folder, you'll have no worries with the two resources finding each other.
@@ -97,3 +99,15 @@ Should you miss this and publish your theme with the errant code, then an alert 
 * **1.1.0**: added option to add/remove social links
 * **1.0.1**: a little tweak and optimization
 * **1.0.0**: initial release
+
+## About sdAlbumStyle ##
+
+sdAlbumStyle is a quick and dirty plugin to quickly style album thumbnail pages.
+
+## USAGE (sdAlbumStyle) ##
+
+1. use as such:
+
+		$.sdAlbumStyle({
+			plusClass : 'someClass'
+		});
