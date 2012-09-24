@@ -54,28 +54,8 @@
 
 			// ACTION
 			if (phA.length || mA.length) {
-				// load js (prettyPhoto)
-				var css_href = false;
-				$.getScript(opts.js_file)
-				.done(function(){
-					css_href = opts.css_file;
-					return css_href;
-				})
-				.fail(function(){
-					console.log('Failed to load ' + opts.css_file);
-				});
-				if (prettyPhoto == 'undefined') {
-					$.getScript(opts.js_local)
-					.done(function(){
-						css_href = opts.css_local;
-						return css_href;
-					})
-					.fail(function(){
-						console.log('Failed to load ' + opts.css_local);
-					});
-				}
-				
-				if (css_href == opts.css_file || css_href == opts.css_local) {
+				// load remote js (prettyPhoto)
+				$.getScript(opts.js_file, function() {
 					// Photo Album
 					if (phA.length) {
 						// get thumbnail links and alter attributes (prettyPhoto)
@@ -114,9 +94,52 @@
 					$("head").append("<link>").children(":last").attr({
 						rel: "stylesheet",
 						type: "text/css",
-						href: css_href
+						href: opts.css_file
 					});
-				}
+				});
+				// load local js (prettyPhoto)
+				$.getScript(opts.js_local, function() {
+					// Photo Album
+					if (phA.length) {
+						// get thumbnail links and alter attributes (prettyPhoto)
+						thFrame.each(function() {
+							var thisAnch = jq.add('a', this),
+							thisImg = jq.add('a img', this),
+							thisCap = jq.add('.thumbnail-caption', this);
+							thisAnch.attr({
+								'href': thisImg.attr('src').replace(/thumb/i, 'full'),
+								'rel': 'prettyPhoto[gallery]',
+								'title': thisCap.text()
+							});
+						});
+					} else {
+						// since photo album is false movie album is true
+						// get thumbnails links and alter attributes (prettyPhoto)
+						mA.each(function() {
+							var thisAnch = jq.add('a', this);
+							var thisCap = jq.add('.movie-thumbnail-caption', this);
+							var thisPage = thisAnch.attr('href');
+							thisAnch.removeAttr('onclick').removeAttr('onkeypress').attr({
+								'href': thisPage + '?iframe=true&width=75%&height=75%',
+								'rel': 'prettyPhoto[iframes]',
+								'title': thisCap.text()
+							});
+						});
+					}
+					// apply effects (prettyPhoto)
+					jq.add('a[rel^=prettyPhoto]').prettyPhoto({
+						animation_speed: opts.animation_speed,
+						show_title: opts.show_title,
+						theme: opts.theme,
+						social_tools: opts.social_tools
+					});
+					// load css (prettyPhoto)
+					$("head").append("<link>").children(":last").attr({
+						rel: "stylesheet",
+						type: "text/css",
+						href: opts.css_local
+					});
+				});
 			}
 		} else {
 			// if no options detected, issue warning
@@ -124,5 +147,5 @@
 			alert(msg);
 			console.log(msg);
 		}
-    };
+    }
 })(jQuery);
