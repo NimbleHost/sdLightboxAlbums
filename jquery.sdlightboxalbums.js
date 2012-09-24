@@ -46,14 +46,15 @@
 		// check for options
 		if ((settings.css_file && settings.js_file) || (settings.css_local && settings.js_local)) {
 			$.extend(opts, settings);
-			// VARIABLES
-			var jq = $([]),
-			phA = jq.add('.album-wrapper'),
-			mA = jq.add('.movie-thumbnail-frame'),
-			thFrame = phA.find('.thumbnail-frame');
-
+			
 			// ACTION
 			var doPrettyPhoto = function(path){
+				// VARIABLES
+				var jq = $([]),
+				phA = jq.add('.album-wrapper'),
+				mA = jq.add('.movie-thumbnail-frame'),
+				thFrame = phA.find('.thumbnail-frame');
+
 				if (phA.length || mA.length) {
 					// load css (prettyPhoto)
 					$("head").append("<link>").children(":last").attr({
@@ -99,18 +100,26 @@
 			};
 			// load js (prettyPhoto)
 			// remote attempt
+			var scriptFail = false;
 			$.getScript(opts.js_file, function() {
-				if (prettyPhoto != 'undefined') doPrettyPhoto(opts.css_file);
+				if (prettyPhoto != 'undefined') {
+					doPrettyPhoto(opts.css_file);
+				} else {
+					scriptFail = true;
+					return scriptFail;
+				}
 			});
 			// local attempt
-			$.getScript(opts.js_local, function() {
-				if (prettyPhoto != 'undefined') doPrettyPhoto(opts.css_local);
-			});
+			if (scriptFail == true) {
+				$.getScript(opts.js_local, function() {
+					if (prettyPhoto != 'undefined') doPrettyPhoto(opts.css_local);
+				});
+			}
 		} else {
 			// if no options detected, issue warning
 			var msg = 'The paths to the lightbox files have not been set by the theme developer!';
 			alert(msg);
 			console.log(msg);
 		}
-    }
+    };
 })(jQuery);
