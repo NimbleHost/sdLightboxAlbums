@@ -48,7 +48,6 @@
 			$.extend(opts, settings);
 			
 			// ACTION
-			console.log(phA);
 			var doPrettyPhoto = function(path){
 				// VARIABLES
 				var jq = $([]),
