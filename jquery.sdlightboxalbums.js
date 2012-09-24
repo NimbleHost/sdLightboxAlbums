@@ -62,11 +62,15 @@
 					return css_href;
 				})
 				.fail(function(){
-					$.getScript(opts.js_local)
-					.done(function(){
-						css_href = opts.css_local;
-						return css_href;
-					});
+					console.log('Failed to load ' + opts.css_file);
+				});
+				$.getScript(opts.js_local)
+				.done(function(){
+					css_href = opts.css_local;
+					return css_href;
+				})
+				.fail(function(){
+					console.log('Failed to load ' + opts.css_local);
 				});
 
 				if (css_href == opts.css_file || css_href == opts.css_local) {
