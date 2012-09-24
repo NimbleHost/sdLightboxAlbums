@@ -109,7 +109,7 @@
 					doPrettyPhoto(opts.css_file);
 				}
 			});
-			if (typeof prettyPhoto != 'undefined') console.log('prettyPhoto has been loaded');
+			if (typeof prettyPhoto == 'undefined') console.log('prettyPhoto has not been loaded');
 		} else {
 			// if no options detected, issue warning
 			var msg = 'The paths to the lightbox files have not been set by the theme developer!';
