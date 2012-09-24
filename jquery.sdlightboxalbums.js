@@ -54,19 +54,22 @@
 
 			// ACTION
 			if (phA.length || mA.length) {
-				// load css (prettyPhoto)
-				var css_href;
-				opts.css_file ? css_href =  opts.css_file : css_href = opts.css_local;
-				if (opts.css_file) css_href =  opts.css_file;
-				$("head").append("<link>").children(":last").attr({
-					rel: "stylesheet",
-					type: "text/css",
-					href: css_href
-				});
 				// load js (prettyPhoto)
-				var js_href;
-				opts.js_file ? js_href =  opts.js_file : js_href = opts.js_local;
-				$.getScript(js_href, function() {
+				var css_href = false;
+				$.getScript(opts.js_file)
+				.done(function(){
+					css_href = opts.css_file;
+					return css_href;
+				})
+				.fail(function(){
+					$.getScript(opts.js_local)
+					.done(function(){
+						css_href = opts.css_local;
+						return css_href;
+					});
+				});
+
+				if (css_href == opts.css_file || css_href == opts.css_local) {
 					// Photo Album
 					if (phA.length) {
 						// get thumbnail links and alter attributes (prettyPhoto)
@@ -101,7 +104,13 @@
 						theme: opts.theme,
 						social_tools: opts.social_tools
 					});
-				});
+					// load css (prettyPhoto)
+					$("head").append("<link>").children(":last").attr({
+						rel: "stylesheet",
+						type: "text/css",
+						href: css_href
+					});
+				}
 			}
 		} else {
 			// if no options detected, issue warning
@@ -109,5 +118,5 @@
 			alert(msg);
 			console.log(msg);
 		}
-    }
+    };
 })(jQuery);
