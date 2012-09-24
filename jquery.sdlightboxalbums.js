@@ -48,7 +48,7 @@
 			$.extend(opts, settings);
 			
 			// ACTION
-			var = isLoaded = false;
+			var isLoaded = false;
 			var doPrettyPhoto = function(path){
 				// VARIABLES
 				var jq = $([]),
@@ -57,7 +57,6 @@
 				thFrame = phA.find('.thumbnail-frame');
 
 				isLoaded = true;
-				return isLoaded;
 
 				if (phA.length || mA.length) {
 					// load css (prettyPhoto)
@@ -101,6 +100,7 @@
 						social_tools: opts.social_tools
 					});
 				}
+				return isLoaded;
 			};
 			// load js (prettyPhoto)
 			// remote attempt
