@@ -35,67 +35,74 @@
         // SETTINGS
         var opts = {
             css_file: '',
+            css_local: '',
             js_file: '',
+            js_local: '',
 			animation_speed: 'normal',
             show_title: false,
             theme: 'default',
             social_tools: false
         };
 		// check for options
-        if (settings.css_file && settings.js_file) {
+		if ((settings.css_file && settings.js_file) || (settings.css_local && settings.js_local)) {
 			$.extend(opts, settings);
 			// VARIABLES
-	        var jq = $([]),
-	        phA = jq.add('.album-wrapper'),
-	        mA = jq.add('.movie-thumbnail-frame'),
-	        thFrame = phA.find('.thumbnail-frame');
+			var jq = $([]),
+			phA = jq.add('.album-wrapper'),
+			mA = jq.add('.movie-thumbnail-frame'),
+			thFrame = phA.find('.thumbnail-frame');
 
-	        // ACTION
-	        if (phA.length || mA.length) {
-	            // load css (prettyPhoto)
-	            $("head").append("<link>").children(":last").attr({
-	                rel: "stylesheet",
-	                type: "text/css",
-	                href: opts.css_file
-	            });
-	            // load js (prettyPhoto)
-	            $.getScript(opts.js_file, function() {
-	                // Photo Album
-	                if (phA.length) {
-	                    // get thumbnail links and alter attributes (prettyPhoto)
-	                    thFrame.each(function() {
-	                        var thisAnch = jq.add('a', this),
-	                        thisImg = jq.add('a img', this),
-	                        thisCap = jq.add('.thumbnail-caption', this);
-	                        thisAnch.attr({
-	                            'href': thisImg.attr('src').replace(/thumb/i, 'full'),
-	                            'rel': 'prettyPhoto[gallery]',
-	                            'title': thisCap.text()
-	                        });
-	                    });
-	                } else {
-	                    // since photo album is false movie album is true
-	                    // get thumbnails links and alter attributes (prettyPhoto)
-	                    mA.each(function() {
-	                        var thisAnch = jq.add('a', this);
-	                        var thisCap = jq.add('.movie-thumbnail-caption', this);
-	                        var thisPage = thisAnch.attr('href');
-	                        thisAnch.removeAttr('onclick').removeAttr('onkeypress').attr({
-	                            'href': thisPage + '?iframe=true&width=75%&height=75%',
-	                            'rel': 'prettyPhoto[iframes]',
-	                            'title': thisCap.text()
-	                        });
-	                    });
-	                }
-	                // apply effects (prettyPhoto)
-	                jq.add('a[rel^=prettyPhoto]').prettyPhoto({
-	                    animation_speed: opts.animation_speed,
-	                    show_title: opts.show_title,
-	                    theme: opts.theme,
-	                    social_tools: opts.social_tools
-	                });
-	            });
-	        }
+			// ACTION
+			if (phA.length || mA.length) {
+				// load css (prettyPhoto)
+				var css_href;
+				opts.css_file ? css_href =  opts.css_file : css_href = opts.css_local;
+				if (opts.css_file) css_href =  opts.css_file;
+				$("head").append("<link>").children(":last").attr({
+					rel: "stylesheet",
+					type: "text/css",
+					href: css_href
+				});
+				// load js (prettyPhoto)
+				var js_href;
+				opts.js_file ? js_href =  opts.js_file : js_href = opts.js_local;
+				$.getScript(js_href, function() {
+					// Photo Album
+					if (phA.length) {
+						// get thumbnail links and alter attributes (prettyPhoto)
+						thFrame.each(function() {
+							var thisAnch = jq.add('a', this),
+							thisImg = jq.add('a img', this),
+							thisCap = jq.add('.thumbnail-caption', this);
+							thisAnch.attr({
+								'href': thisImg.attr('src').replace(/thumb/i, 'full'),
+								'rel': 'prettyPhoto[gallery]',
+								'title': thisCap.text()
+							});
+						});
+					} else {
+						// since photo album is false movie album is true
+						// get thumbnails links and alter attributes (prettyPhoto)
+						mA.each(function() {
+							var thisAnch = jq.add('a', this);
+							var thisCap = jq.add('.movie-thumbnail-caption', this);
+							var thisPage = thisAnch.attr('href');
+							thisAnch.removeAttr('onclick').removeAttr('onkeypress').attr({
+								'href': thisPage + '?iframe=true&width=75%&height=75%',
+								'rel': 'prettyPhoto[iframes]',
+								'title': thisCap.text()
+							});
+						});
+					}
+					// apply effects (prettyPhoto)
+					jq.add('a[rel^=prettyPhoto]').prettyPhoto({
+						animation_speed: opts.animation_speed,
+						show_title: opts.show_title,
+						theme: opts.theme,
+						social_tools: opts.social_tools
+					});
+				});
+			}
 		} else {
 			// if no options detected, issue warning
 			var msg = 'The paths to the lightbox files have not been set by the theme developer!';
