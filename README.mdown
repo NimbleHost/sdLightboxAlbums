@@ -24,7 +24,7 @@ Since this is a helper utility to assist RapidWeaver theme developers deploy pre
 
 ## SETTINGS ##
 
-There are 2 mandatory settings when invoking sdLightboxAlbums, the file path to the prettyPhoto jQuery plugin and the file path to the prettyPhoto CSS file. `js_file:` is for the prettyPhoto plugin, `css_file:` is for the prettyPhoto CSS. See "USAGE" for more information.
+There are 2 of 4 mandatory settings when invoking sdLightboxAlbums, the file path to the prettyPhoto jQuery plugin and the file path to the prettyPhoto CSS file. `js_file:` and/or `js_local:` is for the prettyPhoto plugin, `css_file:` and/or `css_local:` is for the prettyPhoto CSS. See "USAGE" for more information.
 
 ## OPTIONS ##
 
@@ -36,20 +36,36 @@ There are 4 optional settings that you can use to pass prettyPhoto a few prefere
 2. Include the prettyPhoto themes in your image folder in a folder called "prettyPhoto". If your CSS file is in the "Contents/css" folder and your prettyPhoto themes in the "Contents/images/prettyPhoto" folder, you'll have no worries with the two resources finding each other.
 3. Include the jquery.sdlightboxalbums.js plugin in your theme and call to it with your preferred method. It's a pretty small script so you could likely call it in the head of your theme regardless of the page that is loaded, but if resource management is a concern then you could also load the plugin via ajax, conditional of photo album and movie albums pages being loaded.
 4. Invoke the function within your HTML template or a JavaScript file (prefered). Note that we are dealing with jQuery here, so... you know... use jQuery. Here is what the typical invocation would like like:
-
+		
+		// same server
 		$.sdLightboxAlbums({
 			css_file	:	'some/path/prettyPhoto.css',
 			js_file		:	'another/folder/jquery.prettyPhoto.js'
+		});
+
+		// or cross domain
+		$.sdLightboxAlbums({
+			css_file	:	'http://some.other.site/some/path/prettyPhoto.css',
+			js_file		:	'http://some.other.site/another/folder/jquery.prettyPhoto.js'
 		});
 		
 5. Set your file paths accordingly. It's entirely up to you, but my preferred method is with [RwSetGet](https://github.com/seyDoggy/RwSetGet "seyDoggy/RwSetGet - GitHub"). That would look something like this:
 
 		$.sdLightboxAlbums({
 			css_file	:	RwGet.pathto('css/prettyPhoto.css'),
-			js_file		:	RwGet.pathto('scripts/jquery.prettyPhoto.js')
+			js_file	:	RwGet.pathto('scripts/jquery.prettyPhoto.js')
 		});
 		
-6. Choose a few options to pass to prettyPhoto (optional), such as `animation_speed`, `show_title` and `theme`. Like so:
+6. Or for fallback security you can define two places to look, one for cross domain and one for local lookup (should the cross domain fail):
+
+		$.sdLightboxAlbums({
+			css_file	:	'some/path/prettyPhoto.css',
+			css_local	:	RwGet.pathto('css/prettyPhoto.css'),
+			js_file		:	'another/folder/jquery.prettyPhoto.js'
+			js_local	:	RwGet.pathto('scripts/jquery.prettyPhoto.js')
+		});
+
+7. Choose a few options to pass to prettyPhoto (optional), such as `animation_speed`, `show_title` and `theme`. Like so:
 
 		$.sdLightboxAlbums({
 			css_file	:	RwGet.pathto('css/prettyPhoto.css'),
@@ -60,7 +76,7 @@ There are 4 optional settings that you can use to pass prettyPhoto a few prefere
 			social_tools	:	false
 		});
 		
-7. That's it. The built-in RapidWeaver photo and movie album pages will now be lightboxed with prettyPhoto without polluting any other page type with either the extraneous CSS or jQuery code.
+8. That's it. The built-in RapidWeaver photo and movie album pages will now be lightboxed with prettyPhoto without polluting any other page type with either the extraneous CSS or jQuery code.
 
 ## TROUBLE SHOOTING ##
 
