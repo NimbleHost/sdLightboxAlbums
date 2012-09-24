@@ -1,6 +1,6 @@
 # sdLightboxAlbums / sdAlbumStyle #
 **AUTHOR:	Adam Merrifield**  
-**VERSION:	1.1.0**
+**VERSION:	1.2.0**
 
 ## About sdLightboxAlbums ##
 
@@ -112,6 +112,7 @@ Should you miss this and publish your theme with the errant code, then an alert 
 
 ## UPDATES ##
 
+* **1.2.0**: added fallback option
 * **1.1.0**: added option to add/remove social links
 * **1.0.1**: a little tweak and optimization
 * **1.0.0**: initial release

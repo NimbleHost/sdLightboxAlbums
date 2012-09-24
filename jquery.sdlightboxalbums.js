@@ -2,7 +2,7 @@
 	# sdLightboxAlbums - prettyPhoto lightbox helper for RapidWeaver theme developers #
 
 	AUTHOR:	Adam Merrifield <http://adam.merrifield.ca>
-	VERSION: 1.1.0
+	VERSION: 1.2.0
 
 	SETTINGS:
 	- css_file: is the path to the prettyPhoto css file within the RapidWeaver theme
@@ -23,7 +23,9 @@
 		// advanced use with options
 		$.sdLightboxAlbums({
 			css_file	:	'some/path/prettyPhoto.css',
-			js_file		:	'another/folder/jquery.prettyPhoto.js',
+			css_local	:	RwGet.pathto('css/prettyPhoto.css'),
+			js_file		:	'another/folder/jquery.prettyPhoto.js'
+			js_local	:	RwGet.pathto('scripts/jquery.prettyPhoto.js'),
 			animation_speed	:	'slow',
 			show_title		:	true,
 			theme			:	'facebook',
