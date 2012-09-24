@@ -102,7 +102,7 @@
 			// remote attempt
 			var scriptFail = false;
 			$.getScript(opts.js_file, function() {
-				if (prettyPhoto != 'undefined') {
+				if (typeof prettyPhoto != 'undefined') {
 					doPrettyPhoto(opts.css_file);
 				} else {
 					scriptFail = true;
@@ -112,7 +112,7 @@
 			// local attempt
 			if (scriptFail == true) {
 				$.getScript(opts.js_local, function() {
-					if (prettyPhoto != 'undefined') doPrettyPhoto(opts.css_local);
+					if (typeof prettyPhoto != 'undefined') doPrettyPhoto(opts.css_local);
 				});
 			}
 		} else {
