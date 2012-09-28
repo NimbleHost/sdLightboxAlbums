@@ -112,7 +112,7 @@
 				}
 			});
 			// local attempt
-			if ((typeof $.fn.prettyPhoto != 'function') && (opts.css_local && opts.js_local) {
+			if ((typeof $.fn.prettyPhoto != 'function') && (opts.css_local && opts.js_local)) {
 				$.ajax({
 					url: opts.js_local,
 					dataType: "script",
