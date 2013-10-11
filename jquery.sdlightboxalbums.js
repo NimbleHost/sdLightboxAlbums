@@ -2,7 +2,7 @@
  * sdLightboxAlbums - prettyPhoto lightbox helper for RapidWeaver theme developers
  *
  * AUTHOR:  Adam Merrifield <http://adam.merrifield.ca>
- * VERSION: 1.2.3
+ * VERSION: 1.2.4
  *
  * SETTINGS:
  *  - css_file: is the path to the prettyPhoto css file within the RapidWeaver theme
@@ -123,7 +123,6 @@
                     });
                 };
                 // load js (prettyPhoto)
-                // remote attempt
                 jQuery.ajax({
                     url: this_js,
                     dataType: "script",
@@ -136,18 +135,6 @@
                         throwError()
                     }
                 });
-                // local attempt
-                if ((typeof jQuery.fn.prettyPhoto != 'function') && (opts.css_local && opts.js_local)) {
-                    jQuery.ajax({
-                        url: opts.js_local,
-                        dataType: "script",
-                        async: false,
-                        crossDomain: false,
-                        success: function(){
-                            doPrettyPhoto(opts.css_local);
-                        }
-                    });
-                }
             } else {
                 throwError();
             }
